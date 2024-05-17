@@ -1,0 +1,62 @@
+{% block styles %}
+<style>
+  .internship-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px;
+  }
+  .internship-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  .internship-card-content {
+    padding: 10px;
+  }
+  .internship-card-actions {
+    padding: 10px;
+    text-align: right;
+    border-top: 1px solid #eee;
+  }
+  .internship-card-actions a {
+    margin-left: 10px;
+  }
+  .internship-posts {
+    margin-top: 20px;
+    margin-left: 130px;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="internship-posts">
+  {% for post in posts %}
+  <a
+    href="{% url 'post_detail' pk=post.pk %}"
+    style="text-decoration: none; color: inherit"
+  >
+    <div class="internship-card">
+      {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+      {% endif %}
+      <div class="internship-card-content">
+        <h3>{{ post.internship_type }}</h3>
+        <h4>{{ post.company }}</h4>
+        <h4>{{ post.object}}</h4>
+        <p>Duration: {{ post.duration}}</p>
+        <p>Contact: {{ post.contact}}</p>
+      </div>
+      <div class="internship-card-actions">
+        <a href="{% url 'post_detail' pk=post.pk %}">Details</a>
+        <a href="{% url 'post_edit' pk=post.pk %}">Edit</a>
+        <a href="{% url 'post_delete' pk=post.pk %}">Delete</a>
+      </div>
+    </div>
+  </a>
+  {% empty %}
+  <p>No internship posts available.</p>
+  {% endfor %}
+</div>
+{% endblock %}

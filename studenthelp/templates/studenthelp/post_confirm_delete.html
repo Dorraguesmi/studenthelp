@@ -1,0 +1,9 @@
+{% comment %} {% extends 'base_generic.html' %} {% endcomment %}
+ {% block content %}
+<h1>Are you Sure Delete"{{ object.title }}" ?</h1>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirm</button>
+  <a href="{% url 'posts' %}">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="{% static 'css/base.css' %}"
+    />
+    {% block styles %}
+    <style>
+      .navbar-custom {
+        background-color: #f6f5f5;
+      }
+
+      {% comment %} @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #fafafa;
+      } {% endcomment %}
+
+      .wrapper {
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+        margin-top:58px;
+      }
+
+      #sidebar {
+        min-width: 320px;
+        max-width: 320px;
+        min-height: 630px;
+        max-height: 630px;
+        background: #5c7aea;
+        color: #fff;
+        transition: all 0.3s;
+        position: fixed;
+        z-index: 1; /* Stay on top */
+      }
+
+      #sidebar.active {
+        margin-left: -250px;
+      }
+
+      #sidebar ul.components {
+        padding: 20px 0;
+      }
+
+      #sidebar ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+        color: #f6f5f5;
+      }
+
+      #sidebar ul li a:hover {
+        color: #7386d5;
+        background: #fff;
+      }
+
+      #sidebar ul li.active > a,
+      a[aria-expanded="true"] {
+        color: #fff;
+        background: #6d7fcc;
+      }
+
+      a.article,
+      a.article:hover {
+        background: #6d7fcc !important;
+        color: #fff !important;
+      }
+
+      @media (max-width: 768px) {
+        #sidebar {
+          margin-left: -250px;
+        }
+        #sidebar.active {
+          margin-left: 0;
+        }
+      }
+    </style>
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light navbar-custom">
+      <a class="navbar-brand" href="{% url 'posts' %}" id="home-link"
+        >Student Help</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link manage-post-link" href="{% url 'managepost' %}"
+              >New Post</a
+            >
+          </li>
+        </ul>
+        <div class="ml-auto">
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item active">
+              <a class="nav-link" href="#">{{ user }}</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'logout' %}">LogOut</a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Sign Up</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="wrapper">
+      <nav id="sidebar" class="sidebar">
+        <ul class="list-unstyled components">
+          <li>
+            <a href="{% url 'posts' %}" id="home-linkk">Home</a>
+          </li>
+          <li><a href="#">Internships</a></li>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Housing</a></li>
+          <li><a href="#">Transport</a></li>
+          <li><a href="#">Liked Posts</a></li>
+        </ul>
+      </nav>
+      <div class="container">{% block content %}{% endblock %}</div>
+    </div>
+
+    {% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#home-link").on("click", function (e) {
+          e.preventDefault();
+          $.ajax({
+            url: $(this).attr("href"),
+            type: "GET",
+            success: function (data) {
+              $(".container").html(data);
+            },
+            error: function (xhr, status, error) {
+              console.error("Error loading page content:", error);
+            },
+          });
+        });
+      });
+      $(document).ready(function () {
+        $("#home-linkk").on("click", function (e) {
+          e.preventDefault();
+          $.ajax({
+            url: $(this).attr("href"),
+            type: "GET",
+            success: function (data) {
+              $(".container").html(data);
+            },
+            error: function (xhr, status, error) {
+              console.error("Error loading page content:", error);
+            },
+          });
+        });
+      });
+    </script>
+
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha384-tsH3eUqiG9o6BEce5rwvw6X9FZSxEqilG9o6I3y4lC3llC0aV7pIo6HOdYD8F6Ls"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    {% endblock %}
+  </body>
+</html>
