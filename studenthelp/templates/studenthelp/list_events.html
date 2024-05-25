@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Events</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="{% static 'css/base.css' %}"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #fafafa;
+      }
+      .navbar-custom {
+        background-color: #f6f5f5;
+      }
+      .card {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .card-content {
+        padding: 15px;
+      }
+      .card-actions {
+        padding: 10px;
+        text-align: right;
+        border-top: 1px solid #eee;
+      }
+      .card-actions a {
+        margin-left: 10px;
+        color: #007bff;
+        text-decoration: none;
+      }
+      .posts {
+        margin-top: 20px;
+      }
+      .posts .card {
+        width: 100%;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .add-event {
+        margin: 20px 0;
+        text-align: center;
+      }
+      .add-event button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .add-event button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light navbar-custom">
+      <a class="navbar-brand" href="#">Event Posts</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">New Event</a>
+          </li>
+        </ul>
+        <div class="ml-auto">
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item active">
+              <a class="nav-link" href="#">{{ user }}</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'logout' %}">LogOut</a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="add-event">
+        <a href="{% url 'create_event' %}">
+          <button>Add Event</button>
+        </a>
+      </div>
+
+      <div class="posts">
+        {% for event in events %}
+        <div class="card">
+          <div class="card-content">
+            <h3>{{ event.title }}</h3>
+            <p>{{ event.description }}</p>
+            <p>Created by: {{ event.creator }}</p>
+          </div>
+          <div class="card-actions">
+            <a href="{% url 'edit_event' event.pk %}"
+              ><i class="fas fa-edit"></i> Edit</a
+            >
+            <a href="{% url 'delete_event' event.pk %}"
+              ><i class="fas fa-trash-alt"></i> Delete</a
+            >
+          </div>
+        </div>
+        {% empty %}
+        <p>No events available.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

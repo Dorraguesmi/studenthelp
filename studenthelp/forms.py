@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Post,Event,Internship,Recommendation,Housing
+from .models import Post,Event,Internship,Recommendation,Housing,Comment,Transport
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -27,4 +27,22 @@ class HousingForm(ModelForm):
   class Meta :
     model = Housing
     fields = "__all__" 
+    
+class TransportForm(ModelForm):
+  class Meta :
+    model = Transport
+    fields = "__all__" 
+    
+    
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
 
+class LikeForm(forms.Form):
+    post_id = forms.IntegerField()
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']

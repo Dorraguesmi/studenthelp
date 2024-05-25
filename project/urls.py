@@ -14,16 +14,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin,auth
-from django.urls import path,include
+from django.contrib import admin, auth
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from studenthelp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('studenthelp/', include('studenthelp.urls')),
-   path('accounts/', include('django.contrib.auth.urls')),
-     path('logout/',auth_views.LogoutView.as_view(template_name='templates/logout.html'), name = 'logout'),
-    path('login/',auth_views.LoginView.as_view(template_name='login.html'), name = 'login'),
-]+ static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('like/', views.like_post, name='like_post'),
+    path('add_comment/', views.add_comment, name='add_comment'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

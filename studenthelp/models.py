@@ -15,8 +15,10 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='post_images/', null=True, blank=True)
+
     def __str__(self):
         return self.title
+
     class Meta:
         ordering = ['-created_at']
 
@@ -30,23 +32,25 @@ class Comment(models.Model):
         return f"Comment by {self.user} on {self.post}"
 
 class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Like by {self.user} on {self.post}"
+    post = models.ForeignKey(Post, related_name='likes', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Housing(Post):
     address = models.CharField(max_length=255)
     descript = models.CharField(max_length=255, default="default_descript")
     contact = models.CharField(max_length=255, default="default_contact")
-
+class TransportManager(models.Manager):
+    def all_transports(self):
+        return self.all()
 class Transport(Post):
     depart = models.CharField(max_length=255, default="default_depart")
     destination = models.CharField(max_length=255)
     departuretime = models.CharField(max_length=255, default="default_departtime")
     nbseats = models.IntegerField(default=0)
     contact = models.CharField(max_length=255, default="default_contact")
+    objects = TransportManager()
+
 
 
 class Event(Post):

@@ -2,7 +2,7 @@
 <main>
   <style>
     /* CSS styles */
-    .post-details {
+    .internship-details {
       background-color: #f9f9f9;
       padding: 20px;
       border-radius: 10px;
@@ -13,25 +13,25 @@
       max-width: 700px;
     }
 
-    .post-title {
+    .internship-title {
       color: #333;
       margin-bottom: 10px;
       font-size: 1.5em;
     }
 
-    .post-meta {
+    .internship-meta {
       color: #666;
       margin-bottom: 10px;
       font-size: 0.9em;
     }
 
-    .post-description {
+    .internship-description {
       margin-bottom: 20px;
       font-size: 1em;
     }
 
-    .edit-post-link,
-    .delete-post-link,
+    .edit-internship-link,
+    .delete-internship-link,
     .return-list-link {
       margin-right: 10px;
       text-decoration: none;
@@ -39,8 +39,8 @@
       font-size: 0.9em;
     }
 
-    .edit-post-link:hover,
-    .delete-post-link:hover,
+    .edit-internship-link:hover,
+    .delete-internship-link:hover,
     .return-list-link:hover {
       text-decoration: underline;
     }
@@ -49,21 +49,30 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <div class="post-details">
-          <h3 class="post-title">{{ post.title }}</h3>
-          <h4 class="post-meta">By {{ post.creator }}</h4>
-          <h4 class="post-meta">Published: {{ post.created_at }}</h4>
-          {% if post.image %}
-          <img src="{{ post.image.url }}" alt="Image for {{ post.title }}" />
+        <div class="internship-details">
+          <h3 class="internship-title">{{ internship.title }}</h3>
+          <h4 class="internship-meta">By {{ internship.creator }}</h4>
+          <h4 class="internship-meta">
+            Published: {{ internship.created_at }}
+          </h4>
+          {% if internship.image %}
+          <img
+            src="{{ internship.image.url }}"
+            alt="Image for {{ internship.title }}"
+          />
           {% else %}
           <h4>No image available.</h4>
           {% endif %}
-          <p class="post-description">{{ post.description }}</p>
-          <a href="{% url 'post_edit' post.pk %}" class="edit-post-link"
-            >Edit post</a
+          <p class="internship-description">{{ internship.description }}</p>
+          <a
+            href="{% url 'internship_edit' internship.pk %}"
+            class="edit-internship-link"
+            >Edit internship</a
           >
-          <a href="{% url 'post_delete' post.pk %}" class="delete-post-link"
-            >Delete post</a
+          <a
+            href="{% url 'internship_delete' internship.pk %}"
+            class="delete-internship-link"
+            >Delete internship</a
           >
           <a href="{% url 'home' %}" class="return-list-link"
             >Return to the List</a

@@ -1,0 +1,44 @@
+{% extends 'studenthelp/home.html' %} {% load static %} {% block title %} Edit
+Post {% endblock %} {% block content %}
+<main>
+  <style>
+    /* CSS styles */
+    .edit-post-form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-post-title {
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: #5c7aea;
+      border-color: #5c7aea;
+    }
+
+    .btn-primary:hover {
+      background-color: #4b68d7;
+      border-color: #4b68d7;
+    }
+  </style>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="edit-post-form">
+          <h2 class="edit-post-title">Edit Post</h2>
+          <form method="POST">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Update Post</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
